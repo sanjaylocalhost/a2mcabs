@@ -1,0 +1,7 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import '../styles/global.css';
+---
+<BaseLayout title="Log in | A2M Cabs" description="Sign in to your A2M Cabs account to manage your rides and journeys.">
+  <main class="auth-page"><a class="brand" href="/"><span class="brand-mark">A<span>2</span>M</span><span class="brand-copy">CABS<span>MOVE A LITTLE GREENER</span></span></a><div class="auth-card"><a class="back-link" href="/">← Back to A2M Cabs</a><div class="eyebrow"><span class="eyebrow-dot"></span> YOUR NEXT JOURNEY</div><h1>Welcome <em>back.</em></h1><p>Log in to see your bookings and keep your plans moving.</p><form action="#" method="post"><label>Email or mobile number<input name="identity" autocomplete="username" placeholder="you@example.com" required /></label><label>Password<input name="password" type="password" autocomplete="current-password" placeholder="Enter your password" required /></label><button class="button button-dark" type="button" aria-disabled="true">Continue <span>↗</span></button></form><div class="auth-divider"><span></span> NEW TO A2M? <span></span></div><a class="button button-outline" href="/register/">Create your account <span>↗</span></a><small class="prototype-note">Account access will be connected when the booking backend is added.</small></div><a class="admin-shortcut" href="/admin/">Admin sign in ↗</a></main>
+</BaseLayout>

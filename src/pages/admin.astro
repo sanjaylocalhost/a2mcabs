@@ -1,0 +1,7 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import '../styles/global.css';
+---
+<BaseLayout title="Admin sign in | A2M Cabs" description="Administrator sign in for the A2M Cabs booking platform.">
+  <main class="auth-page"><a class="brand" href="/"><span class="brand-mark">A<span>2</span>M</span><span class="brand-copy">CABS<span>MOVE A LITTLE GREENER</span></span></a><div class="auth-card"><a class="back-link" href="/">← Back to A2M Cabs</a><div class="eyebrow"><span class="eyebrow-dot"></span> TEAM ACCESS</div><h1>Admin <em>sign in.</em></h1><p>Private access for the A2M Cabs team.</p><form action="#" method="post"><label>Work email<input name="email" type="email" autocomplete="username" placeholder="name@a2mcabs.com" required /></label><label>Password<input name="password" type="password" autocomplete="current-password" placeholder="Enter your password" required /></label><button class="button button-dark" type="button" aria-disabled="true">Continue securely <span>↗</span></button></form><small class="prototype-note">Admin authentication and dashboard will be added with the backend. This page is a frontend placeholder.</small></div><a class="admin-shortcut" href="/login/">Customer login ↗</a></main>
+</BaseLayout>
