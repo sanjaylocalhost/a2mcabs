@@ -1,0 +1,48 @@
+---
+import { fleet } from '../data/fleet';
+---
+<section class="fleet-section section-pad" id="fleet">
+  <div class="wrap">
+    <div class="section-heading fleet-heading">
+      <div>
+        <div class="eyebrow"><span class="eyebrow-dot"></span> MEET THE FLEET</div>
+        <h2>Quietly going <em>places.</em></h2>
+      </div>
+      <a class="text-link all-cars" href="/login/">View all cars <b>↗</b></a>
+    </div>
+
+    <div class="fleet-grid">
+      {fleet.map((car, i) => (
+        <article class="car-card">
+          <div
+            class="car-photo"
+            style={car.isLocal
+              ? `--car-image:url(${car.image})`
+              : `--car-image:url(https://images.unsplash.com/${car.image}?auto=format&fit=crop&w=1000&q=85)`}
+          >
+            <span class="car-tag">✳ {car.tag}</span>
+            <button class="save-car" aria-label={`Save ${car.name}`}>♡</button>
+            <span class="car-count">0{i + 1} / 0{fleet.length}</span>
+          </div>
+          <div class="car-details">
+            <div>
+              <h3>{car.name}</h3>
+              <p>{car.type}</p>
+            </div>
+            <span class="car-rate">{car.rate}<small> / day</small></span>
+          </div>
+          <div class="car-foot">
+            <span>⚡ Electric · automatic</span>
+            <a href="/login/" aria-label={`Book ${car.name}`}>↗</a>
+          </div>
+        </article>
+      ))}
+    </div>
+
+    <div class="fleet-note">
+      <span class="note-icon">✳</span>
+      <p>Our fleet is growing. <b>Have a car in mind?</b> Tell us and we’ll find the right fit.</p>
+      <a href="mailto:hello@a2mcabs.com">Talk to our team ↗</a>
+    </div>
+  </div>
+</section>

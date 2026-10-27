@@ -1,0 +1,187 @@
+---
+// No changes needed in the frontmatter for this component
+---
+<section class="booking-section wrap" id="booking" aria-labelledby="booking-title">
+  <div class="booking-intro">
+    <div class="eyebrow"><span class="eyebrow-dot"></span> START SOMEWHERE</div>
+    <h2 id="booking-title">Where to next?</h2>
+    <p>Tell us a little about the trip. We’ll help with the rest.</p>
+  </div>
+
+  <form class="booking-card" action="/login/" method="get">
+    <div class="ride-tabs" role="group" aria-label="Choose your ride type">
+      <button type="button" class="ride-tab active" data-ride="Local rental">⌖ <span>Local rental</span></button>
+      <button type="button" class="ride-tab" data-ride="Intercity">⇄ <span>Intercity</span></button>
+      <button type="button" class="ride-tab" data-ride="Self-drive">⌁ <span>Self-drive</span></button>
+      <button type="button" class="ride-tab" data-ride="Airport pickup & drop">✈ <span>Airport</span></button>
+    </div>
+    <input type="hidden" name="ride" id="ride-type" value="Local rental" />
+
+    <div class="booking-fields">
+      <label class="field">
+        <span>Pickup location</span>
+        <span class="field-control">
+          ⌖ 
+          <input id="pickup-input" aria-label="Pickup location" name="pickup" placeholder="City, airport or landmark" required />
+          <button type="button" id="locate-btn" class="locate-btn" title="Use my current location">
+            📍
+          </button>
+        </span>
+        <small id="location-status" class="location-status"></small>
+      </label>
+      <label class="field">
+        <span>Pick-up date</span>
+        <span class="field-control">▦ <input aria-label="Pick-up date" name="date" type="date" required /></span>
+      </label>
+      <label class="field">
+        <span>Return date</span>
+        <span class="field-control">▦ <input aria-label="Return date" name="return" type="date" /></span>
+      </label>
+      <button class="button button-dark search-button" type="submit">Find your ride <span>↗</span></button>
+    </div>
+
+    <!-- Map preview container -->
+    <div id="map-preview" style="height: 250px; width: 100%; margin-top: 1rem; border-radius: 12px; z-index: 1;"></div>
+
+    <div class="booking-foot">
+      <span><span class="secure-dot">✓</span> Clear pricing, no surprises</span>
+      <span>Electric options available <span class="leaf">✳</span></span>
+    </div>
+  </form>
+</section>
+
+<!-- Leaflet CSS & JS -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+
+<style>
+  /* Style for the locate button to sit inside the input */
+  .field-control {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+  .field-control input {
+    padding-right: 40px; /* Make room for the button */
+    width: 100%;
+  }
+  .locate-btn {
+    position: absolute;
+    right: 8px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.2rem;
+    padding: 4px;
+    line-height: 1;
+    border-radius: 50%;
+    transition: background 0.2s;
+  }
+  .locate-btn:hover {
+    background: rgba(0,0,0,0.05);
+  }
+  .locate-btn:disabled {
+    opacity: 0.5;
+    cursor: wait;
+  }
+  .location-status {
+    display: block;
+    margin-top: 4px;
+    font-size: 0.8rem;
+    color: #666;
+    min-height: 1.2em;
+  }
+</style>
+
+<script>
+  // --- Tab switching logic (unchanged) ---
+  const tabs = document.querySelectorAll<HTMLButtonElement>('.ride-tab');
+  const rideType = document.querySelector<HTMLInputElement>('#ride-type');
+  tabs.forEach((tab) =>
+    tab.addEventListener('click', () => {
+      tabs.forEach((item) => item.classList.remove('active'));
+      tab.classList.add('active');
+      if (rideType) rideType.value = tab.dataset.ride || 'Local rental';
+    })
+  );
+
+  // --- Location & Map Logic ---
+  document.addEventListener('DOMContentLoaded', () => {
+    const locateBtn = document.getElementById('locate-btn') as HTMLButtonElement;
+    const pickupInput = document.getElementById('pickup-input') as HTMLInputElement;
+    const statusEl = document.getElementById('location-status') as HTMLElement;
+    const mapContainer = document.getElementById('map-preview');
+
+    if (!locateBtn || !pickupInput || !statusEl || !mapContainer) return;
+
+    let map: any = null;
+    let marker: any = null;
+
+    const showMap = (lat: number, lng: number) => {
+      if (!map) {
+        // Initialize map if it doesn't exist
+        map = (window as any).L.map('map-preview').setView([lat, lng], 15);
+        (window as any).L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+          maxZoom: 19,
+          attribution: '© <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+        }).addTo(map);
+        marker = (window as any).L.marker([lat, lng]).addTo(map);
+      } else {
+        // Update existing map
+        map.setView([lat, lng], 15);
+        marker.setLatLng([lat, lng]);
+      }
+    };
+
+    locateBtn.addEventListener('click', () => {
+      if (!navigator.geolocation) {
+        statusEl.textContent = 'Geolocation is not supported by your browser.';
+        return;
+      }
+
+      locateBtn.disabled = true;
+      statusEl.textContent = 'Getting your location...';
+
+      navigator.geolocation.getCurrentPosition(
+        async (position) => {
+          const { latitude, longitude } = position.coords;
+          
+          // 1. Show map immediately with coordinates
+          showMap(latitude, longitude);
+
+          // 2. Reverse geocode to get a readable address
+          try {
+            statusEl.textContent = 'Looking up address...';
+            const response = await fetch(
+              `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}&zoom=18&addressdetails=1`,
+              { headers: { 'User-Agent': 'A2MCabs/1.0 (contact@a2mcabs.com)' } } // Nominatim policy requires a User-Agent [citation:11]
+            );
+            const data = await response.json();
+            if (data.display_name) {
+              pickupInput.value = data.display_name;
+            } else {
+              pickupInput.value = `${latitude.toFixed(5)}, ${longitude.toFixed(5)}`;
+            }
+            statusEl.textContent = 'Location updated.';
+          } catch (error) {
+            console.error('Geocoding failed:', error);
+            // Fallback to coordinates if geocoding fails
+            pickupInput.value = `${latitude.toFixed(5)}, ${longitude.toFixed(5)}`;
+            statusEl.textContent = 'Address lookup failed, using coordinates.';
+          } finally {
+            locateBtn.disabled = false;
+          }
+        },
+        (error) => {
+          locateBtn.disabled = false;
+          let msg = 'Unable to retrieve your location.';
+          if (error.code === 1) msg = 'Permission denied. Please allow location access or type manually.';
+          else if (error.code === 2) msg = 'Location unavailable. Please try again or type manually.';
+          else if (error.code === 3) msg = 'Request timed out. Please try again or type manually.';
+          statusEl.textContent = msg;
+        },
+        { enableHighAccuracy: true, timeout: 10000, maximumAge: 60000 }
+      );
+    });
+  });
+</script>

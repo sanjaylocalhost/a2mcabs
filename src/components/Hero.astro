@@ -1,0 +1,428 @@
+---
+// Each slide = one service. Swap the image URLs for your own EV photos any time.
+const slides = [
+  {
+    service: 'Self-drive',
+    image: 'https://images.unsplash.com/photo-1593941707882-a5bba14938c7?auto=format&fit=crop&w=2000&q=80',
+    alt: 'Electric SUV on a scenic mountain road',
+    eyebrow: 'SELF-DRIVE EV RENTAL',
+    title: 'Take the wheel.<br /><em>Feel good</em> getting there.',
+    text: 'Pick an electric car, hit the road and go at your own pace. Charging help included.',
+    cta: 'Rent a self-drive EV',
+    note: ['Your keys, your route.', 'Quiet, smooth and zero tailpipe emissions.'],
+    caption: 'THE OPEN ROAD, REIMAGINED',
+  },
+  {
+    service: 'With driver',
+    image: 'https://images.unsplash.com/photo-1563720223185-11003d516935?auto=format&fit=crop&w=2000&q=80',
+    alt: 'Electric car ready for a chauffeured ride',
+    eyebrow: 'EV WITH PROFESSIONAL DRIVER',
+    title: 'Sit back.<br /><em>We drive</em> you there.',
+    text: 'Courteous, trained drivers and a silent electric cabin. Work, rest or just enjoy the view.',
+    cta: 'Book a car with driver',
+    note: ['Verified drivers.', 'Clean, comfortable and always on time.'],
+    caption: 'RELAX. WE HANDLE THE ROAD',
+  },
+  {
+    service: 'Local rental',
+    image: 'https://images.unsplash.com/photo-1617788138017-80ad40651399?auto=format&fit=crop&w=2000&q=80',
+    alt: 'Electric car charging at sunset',
+    eyebrow: 'LOCAL HOURLY RENTAL',
+    title: 'Meetings, errands,<br /><em>shopping</em> days.',
+    text: 'Rent an EV with a driver by the hour or for a full day. Pay for what you use.',
+    cta: 'Book 4 / 8 / 12 hours',
+    note: ['One car for your whole day.', 'Stop as many times as you like.'],
+    caption: 'CITY DAYS, SORTED',
+  },
+  {
+    service: 'Intercity',
+    image: 'https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&w=2000&q=80',
+    alt: 'Electric car on a coastal highway',
+    eyebrow: 'INTERCITY & OUTSTATION',
+    title: 'City to city,<br /><em>go a little</em> further.',
+    text: 'One-way or round trip between cities, planned around fast-charging stops.',
+    cta: 'Plan an intercity trip',
+    note: ['Fixed, upfront fares.', 'Charging stops planned for you.'],
+    caption: 'LONG ROUTES, LIGHT FOOTPRINT',
+  },
+  {
+    service: 'Airport',
+    image: 'https://images.unsplash.com/photo-1508974239320-0a029497e820?auto=format&fit=crop&w=2000&q=80',
+    alt: 'Electric car on a quiet road at dawn',
+    eyebrow: 'AIRPORT PICK-UP & DROP',
+    title: 'Never miss<br /><em>a flight</em> again.',
+    text: 'On-time airport transfers with flight tracking, so your driver is there when you land.',
+    cta: 'Book airport transfer',
+    note: ['Flight tracking.', 'Free waiting time on arrivals.'],
+    caption: 'FROM DOORSTEP TO TERMINAL',
+  },
+];
+---
+
+<section class="hero" data-hero aria-roledescription="carousel" aria-label="EV travel services">
+  <div class="hero-slides">
+    {slides.map((s, i) => (
+      <div
+        class:list={['hero-slide', { active: i === 0 }]}
+        style={`--hero-image:url(${s.image})`}
+        role="group"
+        aria-roledescription="slide"
+        aria-label={`${s.service}: ${s.alt}`}
+        data-slide={i}
+      >
+        <div class="hero-shade"></div>
+        <div class="hero-content wrap">
+          <div class="eyebrow eyebrow-light"><span class="pulse"></span> {s.eyebrow}</div>
+          {i === 0 ? <h1 set:html={s.title} /> : <h2 class="h1-like" set:html={s.title} />}
+          <p>{s.text}</p>
+          <a class="button button-lime" href="#booking" data-service={s.service}>{s.cta} <span>↗</span></a>
+          <div class="hero-note">
+            <span class="note-icon">✳</span>
+            <span><b>{s.note[0]}</b><br />{s.note[1]}</span>
+          </div>
+        </div>
+        <div class="hero-caption">
+          <span>{String(i + 1).padStart(2, '0')} / {String(slides.length).padStart(2, '0')}</span>
+          <i></i>
+          <span>{s.caption}</span>
+        </div>
+      </div>
+    ))}
+  </div>
+
+  <div class="hero-stamp"><span>THE</span><b>EV</b><span>WAY</span></div>
+
+  <!-- Service tabs: also act as slide navigation + autoplay progress -->
+  <div class="hero-controls">
+    <button type="button" class="arrow prev" aria-label="Previous slide">&#10094;</button>
+    <div class="services" role="tablist" aria-label="Choose a service">
+      {slides.map((s, i) => (
+        <button
+          type="button"
+          class:list={['service', { active: i === 0 }]}
+          data-dot={i}
+          role="tab"
+          aria-selected={i === 0 ? 'true' : 'false'}
+        >
+          <span class="service-name">{s.service}</span>
+          <span class="service-bar"><i></i></span>
+        </button>
+      ))}
+    </div>
+    <button type="button" class="arrow next" aria-label="Next slide">&#10095;</button>
+  </div>
+</section>
+
+<style>
+  .hero {
+    --lime: #c6f432;
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    height: 100svh;
+    min-height: 680px;
+    overflow: hidden;
+    color: #fff;
+    background: #0d1a14;
+  }
+
+  /* ---------- slides ---------- */
+  .hero-slides { position: absolute; inset: 0; }
+  .hero-slide {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    background: var(--hero-image) center/cover no-repeat;
+    opacity: 0;
+    visibility: hidden;
+    transform: scale(1);
+    transition: opacity 1s ease, visibility 1s ease, transform 6s ease;
+  }
+  .hero-slide.active {
+    opacity: 1;
+    visibility: visible;
+    z-index: 1;
+    transform: scale(1.05); /* subtle Ken Burns */
+  }
+  .hero-shade {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background:
+      linear-gradient(90deg, rgba(5, 14, 10, .82) 0%, rgba(5, 14, 10, .45) 55%, rgba(5, 14, 10, .1) 100%),
+      linear-gradient(0deg, rgba(5, 14, 10, .7) 0%, transparent 35%);
+  }
+
+  /* ---------- content ---------- */
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    max-width: 680px;
+    margin-left: clamp(1.25rem, 6vw, 6rem);
+    padding-bottom: 5rem;
+  }
+  .wrap { box-sizing: border-box; }
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: .6rem;
+    font-size: .78rem;
+    font-weight: 600;
+    letter-spacing: .14em;
+    margin-bottom: 1.25rem;
+  }
+  .pulse {
+    width: 9px; height: 9px; border-radius: 50%;
+    background: var(--lime);
+    box-shadow: 0 0 0 0 rgba(198, 244, 50, .6);
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse {
+    70% { box-shadow: 0 0 0 10px rgba(198, 244, 50, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(198, 244, 50, 0); }
+  }
+  h1, .h1-like {
+    margin: 0 0 1rem;
+    font-size: clamp(2.5rem, 6.4vw, 5.2rem);
+    line-height: 1.02;
+    letter-spacing: -.02em;
+    font-weight: 700;
+  }
+  .hero-content :global(em) { font-style: italic; color: var(--lime); }
+  .hero-content p {
+    max-width: 46ch;
+    margin: 0 0 1.75rem;
+    font-size: clamp(1rem, 1.5vw, 1.2rem);
+    line-height: 1.55;
+    color: rgba(255, 255, 255, .88);
+  }
+  .button {
+    display: inline-flex;
+    align-items: center;
+    gap: .6rem;
+    padding: .95rem 1.6rem;
+    border-radius: 999px;
+    font-weight: 700;
+    text-decoration: none;
+    transition: transform .2s ease, box-shadow .2s ease;
+  }
+  .button-lime { background: var(--lime); color: #0d1a14; }
+  .button:hover { transform: translateY(-2px); box-shadow: 0 10px 28px rgba(198, 244, 50, .3); }
+  .button:focus-visible, .service:focus-visible, .arrow:focus-visible {
+    outline: 3px solid #fff;
+    outline-offset: 3px;
+  }
+  .hero-note {
+    display: flex;
+    gap: .75rem;
+    align-items: flex-start;
+    margin-top: 2rem;
+    font-size: .9rem;
+    line-height: 1.45;
+    color: rgba(255, 255, 255, .85);
+  }
+  .note-icon { color: var(--lime); font-size: 1.2rem; }
+
+  /* ---------- caption + stamp ---------- */
+  .hero-caption {
+    position: absolute;
+    left: clamp(1.25rem, 6vw, 6rem);
+    bottom: 7.5rem;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    gap: .9rem;
+    font-size: .78rem;
+    letter-spacing: .12em;
+    color: rgba(255, 255, 255, .8);
+  }
+  .hero-caption i { width: 40px; height: 1px; background: rgba(255, 255, 255, .55); }
+
+  .hero-stamp {
+    position: absolute;
+    right: clamp(1.25rem, 4vw, 3rem);
+    top: 50%;
+    transform: translateY(-50%) rotate(8deg);
+    z-index: 3;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 112px; height: 112px;
+    border-radius: 50%;
+    background: var(--lime);
+    color: #0d1a14;
+    font-size: .68rem;
+    font-weight: 700;
+    letter-spacing: .2em;
+    line-height: 1;
+  }
+  .hero-stamp b { font-size: 2rem; letter-spacing: 0; margin: .15rem 0; }
+
+  /* ---------- service tabs ---------- */
+  .hero-controls {
+    position: absolute;
+    left: clamp(1.25rem, 6vw, 6rem);
+    right: clamp(1.25rem, 4vw, 3rem);
+    bottom: 1.75rem;
+    z-index: 4;
+    display: flex;
+    align-items: center;
+    gap: .75rem;
+  }
+  .services {
+    display: flex;
+    flex: 1;
+    gap: .5rem;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .services::-webkit-scrollbar { display: none; }
+  .service {
+    flex: 1 0 auto;
+    min-width: 110px;
+    padding: .75rem 1rem .6rem;
+    text-align: left;
+    color: rgba(255, 255, 255, .75);
+    background: rgba(255, 255, 255, .1);
+    border: 1px solid rgba(255, 255, 255, .22);
+    border-radius: 14px;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    cursor: pointer;
+    font: inherit;
+    font-size: .88rem;
+    font-weight: 600;
+    transition: background .25s ease, color .25s ease;
+  }
+  .service:hover { background: rgba(255, 255, 255, .2); }
+  .service.active { background: rgba(255, 255, 255, .95); color: #0d1a14; }
+  .service-bar {
+    display: block;
+    height: 3px;
+    margin-top: .55rem;
+    border-radius: 3px;
+    background: rgba(13, 26, 20, .15);
+    overflow: hidden;
+  }
+  .service:not(.active) .service-bar { background: rgba(255, 255, 255, .15); }
+  .service-bar i {
+    display: block;
+    height: 100%;
+    width: 0;
+    background: #2f8f4e;
+  }
+  .service.active .service-bar i { animation: fill var(--hero-interval, 6000ms) linear forwards; }
+  .hero[data-paused] .service.active .service-bar i { animation-play-state: paused; }
+  @keyframes fill { to { width: 100%; } }
+
+  .arrow {
+    flex: none;
+    width: 42px; height: 42px;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, .3);
+    background: rgba(255, 255, 255, .12);
+    color: #fff;
+    cursor: pointer;
+    transition: background .25s ease;
+  }
+  .arrow:hover { background: rgba(255, 255, 255, .3); }
+
+  /* ---------- responsive ---------- */
+  @media (max-width: 900px) {
+    .hero-stamp { display: none; }
+    .hero-caption { display: none; }
+    .hero-content { padding-bottom: 7rem; }
+    .arrow { display: none; }
+  }
+  @media (max-width: 520px) {
+    .hero-note { display: none; }
+    .service { min-width: 96px; font-size: .8rem; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero-slide { transition: opacity .3s ease, visibility .3s ease; transform: none !important; }
+    .pulse { animation: none; }
+    .service.active .service-bar i { animation: none; width: 100%; }
+  }
+</style>
+
+<script>
+  const hero = document.querySelector<HTMLElement>('[data-hero]');
+  if (hero) {
+    const slides = Array.from(hero.querySelectorAll<HTMLElement>('.hero-slide'));
+    const tabs = Array.from(hero.querySelectorAll<HTMLButtonElement>('.service'));
+    const prevBtn = hero.querySelector<HTMLButtonElement>('.arrow.prev');
+    const nextBtn = hero.querySelector<HTMLButtonElement>('.arrow.next');
+    const INTERVAL = 6000;
+    hero.style.setProperty('--hero-interval', `${INTERVAL}ms`);
+
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let current = 0;
+    let timer: number | undefined;
+
+    const show = (i: number) => {
+      current = (i + slides.length) % slides.length;
+      slides.forEach((s, idx) => s.classList.toggle('active', idx === current));
+      tabs.forEach((t, idx) => {
+        // remove + reflow so the progress bar animation restarts
+        t.classList.remove('active');
+        if (idx === current) {
+          void t.offsetWidth;
+          t.classList.add('active');
+          t.scrollIntoView({ block: 'nearest', inline: 'nearest' });
+        }
+        t.setAttribute('aria-selected', idx === current ? 'true' : 'false');
+      });
+    };
+
+    const stop = () => {
+      if (timer) window.clearInterval(timer);
+      timer = undefined;
+      hero.setAttribute('data-paused', '');
+    };
+    const start = () => {
+      if (reduced) return;
+      if (timer) window.clearInterval(timer);
+      hero.removeAttribute('data-paused');
+      timer = window.setInterval(() => show(current + 1), INTERVAL);
+    };
+    const go = (i: number) => { show(i); start(); };
+
+    tabs.forEach((tab) => tab.addEventListener('click', () => go(Number(tab.dataset.dot))));
+    prevBtn?.addEventListener('click', () => go(current - 1));
+    nextBtn?.addEventListener('click', () => go(current + 1));
+
+    // Pause on hover / keyboard focus, resume afterwards
+    hero.addEventListener('mouseenter', stop);
+    hero.addEventListener('mouseleave', start);
+    hero.addEventListener('focusin', stop);
+    hero.addEventListener('focusout', start);
+
+    // Keyboard arrows
+    hero.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight') go(current + 1);
+      if (e.key === 'ArrowLeft') go(current - 1);
+    });
+
+    // Swipe on touch screens
+    let startX = 0;
+    hero.addEventListener('touchstart', (e) => { startX = e.touches[0].clientX; }, { passive: true });
+    hero.addEventListener('touchend', (e) => {
+      const dx = e.changedTouches[0].clientX - startX;
+      if (Math.abs(dx) > 50) go(current + (dx < 0 ? 1 : -1));
+    }, { passive: true });
+
+    // Pass the chosen service to the booking form (optional hook)
+    hero.querySelectorAll<HTMLAnchorElement>('[data-service]').forEach((a) =>
+      a.addEventListener('click', () => {
+        window.dispatchEvent(new CustomEvent('service-selected', { detail: a.dataset.service }));
+      })
+    );
+
+    show(0);
+    start();
+  }
+</script>

@@ -1,0 +1,31 @@
+---
+import { services } from '../data/services';
+---
+<section class="services-section section-pad" id="services">
+  <div class="wrap">
+    <div class="section-heading">
+      <div>
+        <div class="eyebrow"><span class="eyebrow-dot"></span> ONE ROAD, MANY WAYS</div>
+        <h2>Find your kind of <em>freedom.</em></h2>
+      </div>
+      <p>From a quick airport run to a weekend in the hills — pick the ride that fits.</p>
+    </div>
+
+    <div class="service-grid">
+      {services.map((s) => (
+        <a class={`service-card ${s.variant}`} href={s.href}>
+          <div class="service-top">
+            <span class="service-index">{s.index}</span>
+            <span class="round-arrow">↗</span>
+          </div>
+          <div class="service-info">
+            <span class="service-icon">{s.icon}</span>
+            <h3>{s.title}</h3>
+            <p>{s.description}</p>
+            <span class="text-link">{s.linkText} <b>↗</b></span>
+          </div>
+        </a>
+      ))}
+    </div>
+  </div>
+</section>
