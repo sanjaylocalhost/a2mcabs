@@ -10,6 +10,7 @@ import JourneySection from '../components/JourneySection.astro';
 import HowItWorks from '../components/HowItWorks.astro';
 import CtaSection from '../components/CtaSection.astro';
 import Footer from '../components/Footer.astro';
+import WhatsAppButton from '../components/whatsappfloating.astro';
 ---
 <BaseLayout>
   <Header />
@@ -21,7 +22,9 @@ import Footer from '../components/Footer.astro';
     <JourneySection />
     <HowItWorks />
     <CtaSection />
+    <WhatsAppButton/>
   </main>
+
   <Footer />
 </BaseLayout>
 
@@ -36,82 +39,6 @@ import Footer from '../components/Footer.astro';
 
 
 
-
-
-
-<!-- ---
-import BaseLayout from '../layouts/BaseLayout.astro';
-import '../styles/global.css';
-const fleet = [
-  { name: 'Electric city car', type: 'Compact · 4–5 seats', rate: 'Get a quote', tag: 'Easy city miles', image: 'photo-1533473359331-0135ef1b58bf' },
-  { name: 'Electric SUV', type: 'Roomy · 5 seats', rate: 'Get a quote', tag: 'Room for more', image: 'photo-1519641471654-76ce0107ad1b' },
-  { name: 'Premium electric', type: 'Comfort · 5 seats', rate: 'Get a quote', tag: 'Go a little further', image: 'photo-1606611013016-969c19ba27bb' },
-];
----
-<BaseLayout>
-  <header class="site-header">
-    <a class="brand" href="/" aria-label="A2M Cabs home"><span class="brand-mark">A<span>2</span>M</span><span class="brand-copy">CABS<span>MOVE A LITTLE GREENER</span></span></a>
-    <nav class="desktop-nav" aria-label="Main navigation"><a href="#services">Our services</a><a href="#fleet">Our fleet</a><a href="#journeys">Tour packages</a><a href="#how">How it works</a></nav>
-    <div class="header-actions"><a class="login-link" href="/login/">Log in</a><a class="button button-small" href="#booking">Book a ride <span>↗</span></a></div>
-    <button class="menu-toggle" aria-label="Open menu" aria-expanded="false">☰</button>
-  </header>
-
-  <main>
-    <section class="hero">
-      <div class="hero-photo" role="img" aria-label="Electric SUV on a scenic road"></div>
-      <div class="hero-shade"></div>
-      <div class="hero-content wrap">
-        <div class="eyebrow eyebrow-light"><span class="pulse"></span> YOUR JOURNEY, YOUR WAY</div>
-        <h1>Go further.<br /><em>Feel good</em> getting there.</h1>
-        <p>Electric cars, thoughtful drivers and journeys worth remembering. Meet a better way to get around.</p>
-        <a class="button button-lime" href="#booking">Plan your journey <span>↗</span></a>
-        <div class="hero-note"><span class="note-icon">✳</span><span><b>Good miles, lighter footprint.</b><br />Choose electric for your next escape.</span></div>
-      </div>
-      <div class="hero-caption"><span>01 / 03</span><i></i><span>THE OPEN ROAD, REIMAGINED</span></div>
-      <div class="hero-stamp"><span>THE</span><b>EV</b><span>WAY</span></div>
-    </section>
-
-    <section class="booking-section wrap" id="booking" aria-labelledby="booking-title">
-      <div class="booking-intro"><div class="eyebrow"><span class="eyebrow-dot"></span> START SOMEWHERE</div><h2 id="booking-title">Where to next?</h2><p>Tell us a little about the trip. We’ll help with the rest.</p></div>
-      <form class="booking-card" action="/login/" method="get">
-        <div class="ride-tabs" role="group" aria-label="Choose your ride type"><button type="button" class="ride-tab active" data-ride="Self-drive">⌁ <span>Self-drive</span></button><button type="button" class="ride-tab" data-ride="With a driver">◎ <span>With a driver</span></button><button type="button" class="ride-tab" data-ride="Tour package">✳ <span>Tour package</span></button></div>
-        <input type="hidden" name="ride" id="ride-type" value="Self-drive" />
-        <div class="booking-fields"><label class="field"><span>Pickup location</span><span class="field-control">⌖ <input aria-label="Pickup location" name="pickup" placeholder="City, airport or landmark" required /></span></label><label class="field"><span>Pick-up date</span><span class="field-control">▦ <input aria-label="Pick-up date" name="date" type="date" required /></span></label><label class="field"><span>Return date</span><span class="field-control">▦ <input aria-label="Return date" name="return" type="date" /></span></label><button class="button button-dark search-button" type="submit">Find your ride <span>↗</span></button></div>
-        <div class="booking-foot"><span><span class="secure-dot">✓</span> Clear pricing, no surprises</span><span>Electric options available <span class="leaf">✳</span></span></div>
-      </form>
-    </section>
-
-    <section class="services-section section-pad" id="services"><div class="wrap">
-      <div class="section-heading"><div><div class="eyebrow"><span class="eyebrow-dot"></span> ONE ROAD, MANY WAYS</div><h2>Find your kind of <em>freedom.</em></h2></div><p>From a spontaneous city run to a week in the hills, the right ride makes all the difference.</p></div>
-      <div class="service-grid">
-        <a class="service-card self-drive" href="#fleet"><div class="service-top"><span class="service-index">01 / TAKE THE WHEEL</span><span class="round-arrow">↗</span></div><div class="service-info"><span class="service-icon">⌁</span><h3>Self-drive</h3><p>Your playlist. Your pace. A car that's ready when you are.</p><span class="text-link">Explore self-drive <b>↗</b></span></div></a>
-        <a class="service-card chauffeur" href="/login/"><div class="service-top"><span class="service-index">02 / SIT BACK</span><span class="round-arrow">↗</span></div><div class="service-info"><span class="service-icon">◎</span><h3>With a driver</h3><p>Relax into the ride. Our local drivers know the way.</p><span class="text-link">Book a cab <b>↗</b></span></div></a>
-        <a class="service-card tours" id="journeys" href="#tours"><div class="service-top"><span class="service-index">03 / TAKE THE SCENIC ROUTE</span><span class="round-arrow">↗</span></div><div class="service-info"><span class="service-icon">✳</span><h3>Tours & travel</h3><p>Easygoing escapes, made around the places you love.</p><span class="text-link">Find your escape <b>↗</b></span></div></a>
-      </div>
-    </div></section>
-
-    <section class="fleet-section section-pad" id="fleet"><div class="wrap">
-      <div class="section-heading fleet-heading"><div><div class="eyebrow"><span class="eyebrow-dot"></span> MEET THE FLEET</div><h2>Quietly going <em>places.</em></h2></div><a class="text-link all-cars" href="/login/">View all cars <b>↗</b></a></div>
-      <div class="fleet-grid">{fleet.map((car, i) => <article class="car-card"><div class="car-photo" style={`--car-image:url(https://images.unsplash.com/${car.image}?auto=format&fit=crop&w=1000&q=85)`}><span class="car-tag">✳ {car.tag}</span><button class="save-car" aria-label={`Save ${car.name}`}>♡</button><span class="car-count">0{i + 1} / 03</span></div><div class="car-details"><div><h3>{car.name}</h3><p>{car.type}</p></div><span class="car-rate">{car.rate}<small> / day</small></span></div><div class="car-foot"><span>⚡ Electric · automatic</span><a href="/login/" aria-label={`Book ${car.name}`}>↗</a></div></article>)}</div>
-      <div class="fleet-note"><span class="note-icon">✳</span><p>Our fleet is growing. <b>Have a car in mind?</b> Tell us and we’ll find the right fit.</p><a href="mailto:hello@a2mcabs.com">Talk to our team ↗</a></div>
-    </div></section>
-
-    <section class="journey-section section-pad" id="tours"><div class="wrap journey-layout"><div class="journey-copy"><div class="eyebrow eyebrow-light"><span class="pulse"></span> TAKE THE LONG WAY</div><h2>Make room for<br />a little <em>wonder.</em></h2><p>Curated routes, unhurried stops and the kind of views you’ll talk about later. Your next getaway starts here.</p><a class="button button-lime" href="/login/">Explore our tours <span>↗</span></a><div class="journey-pagination"><b>01</b><span></span> 03</div></div><div class="journey-image"><div class="tour-label"><span>WEEKEND ESCAPE</span><b>Coast to<br />countryside</b><small>Slow down. Look around. Go.</small></div></div><div class="journey-side-note"><span>✳</span><p>Thoughtful trips.<br />A lighter way to go.</p></div></div></section>
-
-    <section class="how-section section-pad" id="how"><div class="wrap"><div class="section-heading"><div><div class="eyebrow"><span class="eyebrow-dot"></span> EASY AS IT SHOULD BE</div><h2>Four steps to <em>out there.</em></h2></div><p>More time looking forward. Less time figuring things out.</p></div><div class="steps-grid"><article><span class="step-num">01</span><span class="step-icon">⌖</span><h3>Pick your place</h3><p>Choose your pickup point and tell us when you're going.</p></article><article><span class="step-num">02</span><span class="step-icon">⌁</span><h3>Choose your ride</h3><p>Find your fit: self-drive, chauffeur-driven or a ready-made tour.</p></article><article><span class="step-num">03</span><span class="step-icon">▤</span><h3>Share your details</h3><p>We’ll guide you through the simple booking details.</p></article><article><span class="step-num">04</span><span class="step-icon">↗</span><h3>Go make a day of it</h3><p>Get your confirmation, pick up your keys and enjoy the journey.</p></article></div></div></section>
-
-    <section class="cta-section"><div class="wrap cta-inner"><div><div class="eyebrow eyebrow-light"><span class="pulse"></span> READY WHEN YOU ARE</div><h2>Good things happen<br />when you <em>get going.</em></h2></div><a class="button button-lime" href="#booking">Find your next ride <span>↗</span></a><div class="cta-orbit">A2M<br /><span>✳</span></div></div></section>
-  </main>
-  <footer class="site-footer"><div class="wrap"><div class="footer-main"><a class="brand brand-footer" href="/"><span class="brand-mark">A<span>2</span>M</span><span class="brand-copy">CABS<span>MOVE A LITTLE GREENER</span></span></a><p>Every journey is a chance<br />to go a little better.</p><div class="footer-links"><div><b>Explore</b><a href="#services">Our services</a><a href="#fleet">Our fleet</a><a href="#journeys">Tour packages</a></div><div><b>Your account</b><a href="/login/">User login</a><a href="/admin/">Admin login</a><a href="#booking">Book a ride</a></div><div><b>Say hello</b><a href="mailto:contact@a2mcabs.com">contact@a2mcabs.com</a><span>Add your business phone</span><span>Service areas coming soon</span></div></div></div><div class="footer-bottom"><span>© 2026 A2M Cabs. Made for the road ahead.</span><span><a href="/privacy/">Privacy</a><a href="/terms/">Terms</a><span>Built for better journeys ✳</span></span></div></div></footer>
-  <script>
-    const tabs = document.querySelectorAll<HTMLButtonElement>('.ride-tab');
-    const rideType = document.querySelector<HTMLInputElement>('#ride-type');
-    tabs.forEach((tab) => tab.addEventListener('click', () => { tabs.forEach((item) => item.classList.remove('active')); tab.classList.add('active'); if (rideType) rideType.value = tab.dataset.ride || 'Self-drive'; }));
-    const menuButton = document.querySelector('.menu-toggle');
-    menuButton?.addEventListener('click', () => { const open = menuButton.getAttribute('aria-expanded') === 'true'; menuButton.setAttribute('aria-expanded', String(!open)); document.querySelector('.desktop-nav')?.classList.toggle('nav-open', !open); });
-    document.querySelectorAll('.save-car').forEach((button) => button.addEventListener('click', () => { button.classList.toggle('saved'); button.textContent = button.classList.contains('saved') ? '♥' : '♡'; }));
-  </script>
-</BaseLayout> -->
 
 
 
